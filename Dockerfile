@@ -6,42 +6,42 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install Apt Packages
 RUN apt-get update \
   && apt-get install -y \
-    busybox \
-    curl \
-    direnv \
-    dnsutils \
-    docker.io \
-    dumb-init \
-    g++ \
-    git \
-    git-lfs \
-    htop \
-    iputils-ping \
-    less \
-    locales \
-    lsb-release \
-    make \
-    man \
-    ncdu \
-    netcat \
-    net-tools \
-    nmap \
-    openssh-client \
-    procps \
-    python3-pip \
-    rsync \
-    sudo \
-    traceroute \
-    unzip \
-    vim \
-    wget \
-    zsh \
+  busybox \
+  curl \
+  direnv \
+  dnsutils \
+  docker.io \
+  dumb-init \
+  g++ \
+  git \
+  git-lfs \
+  htop \
+  iputils-ping \
+  less \
+  locales \
+  lsb-release \
+  make \
+  man \
+  ncdu \
+  netcat \
+  net-tools \
+  nmap \
+  openssh-client \
+  procps \
+  python3-pip \
+  rsync \
+  sudo \
+  traceroute \
+  unzip \
+  vim \
+  wget \
+  zsh \
   && apt-get clean autoclean \
   && apt-get autoremove --yes \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Configure Docker
-RUN groupmod -g 999 docker
+RUN groupmod -g 998 docker
 
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
@@ -63,20 +63,19 @@ RUN curl -sfLo /usr/local/bin/jq https://github.com/stedolan/jq/releases/downloa
   && chmod +x /usr/local/bin/jq
 
 # Install https://github.com/justmiles/go-get-ssm-params
-RUN curl -sfLo /usr/local/bin/get-ssm-params https://github.com/justmiles/go-get-ssm-params/releases/download/v1.7.0/get-ssm-params.v1.7.0.linux-amd64 \
-  && chmod +x /usr/local/bin/get-ssm-params
+RUN curl -sfLo - https://github.com/justmiles/go-get-ssm-params/releases/download/v1.8.0/get-ssm-params_1.8.0_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin get-ssm-params
 
 # Install https://github.com/justmiles/ssm-parameter-store
 RUN curl -sfLo - https://github.com/justmiles/ssm-parameter-store/releases/download/v0.0.6/ssm-parameter-store_0.0.6_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin ssm-parameter-store
 
 # Install https://github.com/justmiles/ecs-deploy
-RUN curl -sfLo - https://github.com/justmiles/ecs-deploy/releases/download/v0.2.5/ecs-deploy_0.2.5_Linux_arm64.tar.gz | tar -xzvf - -C /usr/local/bin ecs-deploy
+RUN curl -sfLo - https://github.com/justmiles/ecs-deploy/releases/download/v0.4.0/ecs-deploy_0.4.0_Linux_arm64.tar.gz | tar -xzvf - -C /usr/local/bin ecs-deploy
 
 # Install https://github.com/justmiles/athena-cli
 RUN curl -sfLo - https://github.com/justmiles/athena-cli/releases/download/v0.1.8/athena-cli_0.1.8_linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin athena
 
 # Install https://github.com/justmiles/ecs-cli
-RUN curl -sfLo - https://github.com/justmiles/ecs-cli/releases/download/v0.0.20/ecs_0.0.20_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin ecs
+RUN curl -sfLo - https://github.com/justmiles/ecs-cli/releases/download/v0.2.1/ecs_0.2.1_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin ecs
 
 # Install https://github.com/justmiles/jumpcloud-cli
 RUN curl -sfLo - https://github.com/justmiles/jumpcloud-cli/releases/download/v0.0.2/jumpcloud-cli_0.0.2_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin jc
@@ -134,7 +133,7 @@ RUN curl -sfO https://downloads.rclone.org/rclone-current-linux-amd64.deb \
 
 # Install Nomad
 RUN curl -sfLo - https://releases.hashicorp.com/nomad/1.2.3/nomad_1.2.3_linux_amd64.zip | busybox unzip -qd /usr/local/bin - \
- && chmod +x /usr/local/bin/nomad
+  && chmod +x /usr/local/bin/nomad
 
 # Install https://github.com/warrensbox/terraform-switcher
 RUN curl -sfLo - https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash /dev/stdin -b /usr/bin
@@ -144,11 +143,11 @@ RUN curl -sfLo - https://github.com/harness/drone-cli/releases/latest/download/d
 
 # Install Java
 RUN apt-get update \
-    && apt-get install -y openjdk-8-jdk openjdk-11-jdk openjdk-17-jdk ant maven \
-    && apt-get install -y ant maven gradle \
-    && apt-get clean autoclean \
-    && apt-get autoremove --yes \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}/
+  && apt-get install -y openjdk-8-jdk openjdk-11-jdk openjdk-17-jdk ant maven \
+  && apt-get install -y ant maven gradle \
+  && apt-get clean autoclean \
+  && apt-get autoremove --yes \
+  && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Install https://github.com/coder/code-server
 RUN mkdir -p /usr/local/code-server \
@@ -177,31 +176,31 @@ COPY --chown=sandbox:sandbox .zshrc .
 # Install NVM
 ENV NVM_DIR="/home/sandbox/.nvm"
 RUN curl -sfLo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | zsh \
- && . $NVM_DIR/nvm.sh \
- && nvm install --lts
+  && . $NVM_DIR/nvm.sh \
+  && nvm install --lts
 
 # Install VS Code Extensions
 # TODO: Figure out how to support the tabnine.tabnine-vscode extension
 RUN for item in \
-      # Golang
-      golang.go \
-      # Terrafomr
-      hashicorp.terraform \
-      # Python
-      ms-python.python \
-      # Java
-      redhat.java \
-      gabrielbb.vscode-lombok \
-      # Generic language parsers / prettifiers
-      esbenp.prettier-vscode \
-      redhat.vscode-yaml \
-      jkillian.custom-local-formatters \
-      # Generic tools
-      eamodio.gitlens \
-      # Install snazzy themes
-      pkief.material-icon-theme \
-      zhuangtongfa.Material-theme \
-    ; do /usr/local/code-server/bin/code-server --force --install-extension $item; done
+  # Golang
+  golang.go \
+  # Terrafomr
+  hashicorp.terraform \
+  # Python
+  ms-python.python \
+  # Java
+  redhat.java \
+  gabrielbb.vscode-lombok \
+  # Generic language parsers / prettifiers
+  esbenp.prettier-vscode \
+  redhat.vscode-yaml \
+  jkillian.custom-local-formatters \
+  # Generic tools
+  eamodio.gitlens \
+  # Install snazzy themes
+  pkief.material-icon-theme \
+  zhuangtongfa.Material-theme \
+  ; do /usr/local/code-server/bin/code-server --force --install-extension $item; done
 
 EXPOSE 8080
 

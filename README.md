@@ -1,6 +1,6 @@
-[![Build Status](https://drone.justmiles.io/api/badges/justmiles/dev-sandbox/status.svg)](https://drone.justmiles.io/justmiles/dev-sandbox)
+[![Build Status](https://drone.chrispruitt.io/api/badges/chrispruitt/dev-sandbox/status.svg)](https://drone.chrispruitt.io/chrispruitt/dev-sandbox)
 
-# justmiles dev sandbox
+# chrispruitt dev sandbox
 
 This repo contains common tools and plugins I use when developing remotely.
 
@@ -9,7 +9,7 @@ This repo contains common tools and plugins I use when developing remotely.
 Quickstart:
 
 ```bash
-docker run --security-opt="apparmor=unconfined" --cap-add=SYS_PTRACE -p 8080:8080 -v $PWD:/home/sandbox/workspaces justmiles/dev-sandbox:latest
+docker run --security-opt="apparmor=unconfined" --cap-add=SYS_PTRACE -p 8080:8080 -v $PWD:/home/sandbox/workspaces chrispruitt/dev-sandbox:latest
 ```
 
 When running as a service, consider mapping the following volumes for a generally better experience:
