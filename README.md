@@ -1,4 +1,4 @@
-[![Build Status](https://drone.chrispruitt.io/api/badges/chrispruitt/dev-sandbox/status.svg)](https://drone.chrispruitt.io/chrispruitt/dev-sandbox)
+[![Build Status](https://drone.cpru.io/api/badges/chrispruitt/dev-sandbox/status.svg)](https://drone.cpru.io/chrispruitt/dev-sandbox)
 
 # chrispruitt dev sandbox
 
