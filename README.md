@@ -1,6 +1,6 @@
-[![Build Status](https://drone.justmiles.io/api/badges/justmiles/dev-sandbox/status.svg)](https://drone.justmiles.io/justmiles/dev-sandbox)
+[![Build Status](https://drone.chrispruitt.io/api/badges/chrispruitt/dev-sandbox/status.svg)](https://drone.chrispruitt.io/chrispruitt/dev-sandbox)
 
-# justmiles dev sandbox
+# chrispruitt dev sandbox
 
 This repo contains common tools and plugins I use when developing remotely.
 
@@ -12,7 +12,7 @@ Run a basic sandbox with the following
 docker run \
   -p 8080:8080 \
   -v $PWD:/home/sandbox/workspaces \
-  justmiles/dev-sandbox:latest
+  chrispruitt/dev-sandbox:latest
 ```
 
 ###

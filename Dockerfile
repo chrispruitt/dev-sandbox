@@ -46,7 +46,7 @@ RUN apt-get update \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Configure Docker
-RUN groupmod -g 999 docker
+RUN groupmod -g 998 docker
 
 # https://wiki.debian.org/Locale#Manually
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
@@ -189,11 +189,11 @@ RUN curl -sfLo - https://github.com/harness/drone-cli/releases/latest/download/d
 
 # Install Java
 RUN apt-get update \
-    && apt-get install -y openjdk-8-jdk openjdk-11-jdk openjdk-17-jdk ant maven \
-    && apt-get install -y ant maven gradle \
-    && apt-get clean autoclean \
-    && apt-get autoremove --yes \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}/
+  && apt-get install -y openjdk-8-jdk openjdk-11-jdk openjdk-17-jdk ant maven \
+  && apt-get install -y ant maven gradle \
+  && apt-get clean autoclean \
+  && apt-get autoremove --yes \
+  && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Install https://github.com/coder/code-server
 RUN mkdir -p /usr/local/code-server \

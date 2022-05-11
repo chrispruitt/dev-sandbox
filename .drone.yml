@@ -5,12 +5,12 @@ steps:
 - name: docker
   image: plugins/docker
   settings:
-    username: justmiles
+    username: chrispruitt
     password: 
       from_secret: docker_password
-    repo: justmiles/dev-sandbox
+    repo: chrispruitt/dev-sandbox
     tags: latest
     squash: true
     auto_tag: true
     cache_from:
-      - "justmiles/dev-sandbox:latest"
+      - "chrispruitt/dev-sandbox:latest"

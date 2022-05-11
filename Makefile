@@ -1,12 +1,12 @@
 
 build:
-	docker build . -t justmiles/dev-sandbox
+	docker build . -t chrispruitt/dev-sandbox
 
 push: build
-	docker push justmiles/dev-sandbox
+	docker push chrispruitt/dev-sandbox
 
 run:
-	docker run --rm -d --name dev-sandbox -v $$PWD:/home/sandbox/workspaces -p 8080:8080 justmiles/dev-sandbox
+	docker run --rm -d --name dev-sandbox -v $$PWD:/home/sandbox/workspaces -p 8080:8080 chrispruitt/dev-sandbox
 
 run-shell:
-	docker run --rm -it --name dev-sandbox -v $$PWD:/home/sandbox/workspaces --entrypoint zsh justmiles/dev-sandbox
+	docker run --rm -it --name dev-sandbox -v $$PWD:/home/sandbox/workspaces --entrypoint zsh chrispruitt/dev-sandbox
