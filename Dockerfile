@@ -50,7 +50,8 @@ RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
 ENV LANG=en_US.UTF-8
 
 # Setup python
-RUN sudo ln -s /usr/bin/python3 /usr/bin/python
+RUN sudo ln -s /usr/bin/python3 /usr/bin/python \
+  && echo 'export PATH=$PATH:$HOME/.local/bin' > /etc/profile.d/python.sh
 
 # Install https://github.com/aws/aws-cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
@@ -114,6 +115,9 @@ RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install github.com/dinedal/textql
 # Install hclfmt
 RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install github.com/hashicorp/hcl/v2/cmd/hclfmt@latest
 
+# Install git bump
+RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v github.com/justmiles/git-bump@latest
+
 # Install gopls
 RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v golang.org/x/tools/gopls@latest
 
@@ -134,6 +138,9 @@ RUN curl -sfO https://downloads.rclone.org/rclone-current-linux-amd64.deb \
 # Install Nomad
 RUN curl -sfLo - https://releases.hashicorp.com/nomad/1.2.3/nomad_1.2.3_linux_amd64.zip | busybox unzip -qd /usr/local/bin - \
   && chmod +x /usr/local/bin/nomad
+
+# TODO: install https://github.com/terraform-docs/terraform-docs
+# TODO: install pip install pre-commit
 
 # Install https://github.com/warrensbox/terraform-switcher
 RUN curl -sfLo - https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash /dev/stdin -b /usr/bin
