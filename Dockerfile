@@ -6,41 +6,37 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install Apt Packages
 RUN apt-get update \
   && apt-get install -y \
-    busybox \
-    cron \
-    curl \
-    direnv \
-    dnsutils \
-    docker.io \
-    g++ \
-    git \
-    git-lfs \
-    gnupg \
-    htop \
-    iputils-ping \
-    less \
-    locales \
-    lsb-release \
-    libsecret-1-dev \
-    make \
-    man \
-    ncdu \
-    net-tools \
-    netcat \
-    nmap \
-    openssh-client \
-    procps \
-    python3-pip \
-    rng-tools \
-    rsync \
-    sudo \
-    taskwarrior \
-    traceroute \
-    tree \
-    unzip \
-    vim \
-    wget \
-    zsh \
+  busybox \
+  curl \
+  direnv \
+  dnsutils \
+  docker.io \
+  dumb-init \
+  g++ \
+  git \
+  git-lfs \
+  htop \
+  iputils-ping \
+  less \
+  locales \
+  lsb-release \
+  make \
+  man \
+  ncdu \
+  netcat \
+  net-tools \
+  nmap \
+  openssh-client \
+  procps \
+  python3-pip \
+  rsync \
+  sudo \
+  traceroute \
+  unzip \
+  vim \
+  wget \
+  zsh \
+  openvpn \
   && apt-get clean autoclean \
   && apt-get autoremove --yes \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
