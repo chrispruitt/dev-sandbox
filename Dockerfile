@@ -36,6 +36,7 @@ RUN apt-get update \
   vim \
   wget \
   zsh \
+  openvpn \
   && apt-get clean autoclean \
   && apt-get autoremove --yes \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
