@@ -1,6 +1,6 @@
 FROM ubuntu:focal
 
-ENV CODE_SERVER_RELEASE=4.2.0
+ENV CODE_SERVER_RELEASE=4.4.0
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Apt Packages
@@ -11,7 +11,6 @@ RUN apt-get update \
   direnv \
   dnsutils \
   docker.io \
-  dumb-init \
   g++ \
   git \
   git-lfs \
@@ -32,11 +31,11 @@ RUN apt-get update \
   rsync \
   sudo \
   traceroute \
+  tree \
   unzip \
   vim \
   wget \
   zsh \
-  openvpn \
   && apt-get clean autoclean \
   && apt-get autoremove --yes \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
@@ -48,7 +47,15 @@ RUN groupmod -g 998 docker
 RUN sed -i "s/# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen \
   && locale-gen
 
-ENV LANG=en_US.UTF-8
+# Install s6-overlay
+RUN curl -sfLo - https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-noarch.tar.xz | tar -Jxpf - -C /
+RUN curl -sfLo - https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-x86_64.tar.xz | tar -Jxpf - -C /
+
+# Install tailscale
+RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
+  && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
+  && apt-get update \
+  && apt-get install -y tailscale
 
 # Setup python
 RUN sudo ln -s /usr/bin/python3 /usr/bin/python \
@@ -68,28 +75,28 @@ RUN curl -sfLo /usr/local/bin/jq https://github.com/stedolan/jq/releases/downloa
 RUN curl -sfLo - https://github.com/justmiles/go-get-ssm-params/releases/download/v1.8.0/get-ssm-params_1.8.0_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin get-ssm-params
 
 # Install https://github.com/justmiles/ssm-parameter-store
-RUN curl -sfLo - https://github.com/justmiles/ssm-parameter-store/releases/download/v0.0.6/ssm-parameter-store_0.0.6_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin ssm-parameter-store
+RUN curl -sfLo - https://github.com/justmiles/ssm-parameter-store/releases/download/v0.0.6/ssm-parameter-store_0.0.6_Linux_x86_64.tar.gz | tar -xzf - -C /usr/local/bin ssm-parameter-store
 
 # Install https://github.com/justmiles/ecs-deploy
 RUN curl -sfLo - https://github.com/justmiles/ecs-deploy/releases/download/v0.4.0/ecs-deploy_0.4.0_Linux_arm64.tar.gz | tar -xzvf - -C /usr/local/bin ecs-deploy
 
 # Install https://github.com/justmiles/athena-cli
-RUN curl -sfLo - https://github.com/justmiles/athena-cli/releases/download/v0.1.8/athena-cli_0.1.8_linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin athena
+RUN curl -sfLo - https://github.com/justmiles/athena-cli/releases/download/v0.1.8/athena-cli_0.1.8_linux_x86_64.tar.gz | tar -xzf - -C /usr/local/bin athena
 
 # Install https://github.com/justmiles/ecs-cli
-RUN curl -sfLo - https://github.com/justmiles/ecs-cli/releases/download/v0.3.3/ecs_0.3.0_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin ecs
+RUN curl -sfLo - https://github.com/justmiles/ecs-cli/releases/download/v0.3.0/ecs_0.3.0_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin ecs
 
 # Install https://github.com/justmiles/jumpcloud-cli
-RUN curl -sfLo - https://github.com/justmiles/jumpcloud-cli/releases/download/v0.0.2/jumpcloud-cli_0.0.2_Linux_x86_64.tar.gz | tar -xzvf - -C /usr/local/bin jc
+RUN curl -sfLo - https://github.com/justmiles/jumpcloud-cli/releases/download/v0.0.2/jumpcloud-cli_0.0.2_Linux_x86_64.tar.gz | tar -xzf - -C /usr/local/bin jc
 
 # Install https://github.com/mithrandie/csvq
-RUN curl -sfLo - https://github.com/mithrandie/csvq/releases/download/v1.15.2/csvq-v1.15.2-linux-amd64.tar.gz | tar -xzvf - -C /usr/local/bin --strip-components=1 csvq-v1.15.2-linux-amd64/csvq
+RUN curl -sfLo - https://github.com/mithrandie/csvq/releases/download/v1.15.2/csvq-v1.15.2-linux-amd64.tar.gz | tar -xzf - -C /usr/local/bin --strip-components=1 csvq-v1.15.2-linux-amd64/csvq
 
 # Install https://github.com/pemistahl/grex
-RUN curl -sfLo - https://github.com/pemistahl/grex/releases/download/v1.3.0/grex-v1.3.0-x86_64-unknown-linux-musl.tar.gz | tar -xzvf - -C /usr/local/bin grex
+RUN curl -sfLo - https://github.com/pemistahl/grex/releases/download/v1.3.0/grex-v1.3.0-x86_64-unknown-linux-musl.tar.gz | tar -xzf - -C /usr/local/bin grex
 
 # Install https://github.com/tomnomnom/gron
-RUN curl -sfLo - https://github.com/tomnomnom/gron/releases/download/v0.6.1/gron-linux-amd64-0.6.1.tgz | tar -xzvf - -C /usr/local/bin
+RUN curl -sfLo - https://github.com/tomnomnom/gron/releases/download/v0.6.1/gron-linux-amd64-0.6.1.tgz | tar -xzf - -C /usr/local/bin
 
 # Install https://github.com/likexian/whois
 RUN curl -sfLo - https://github.com/likexian/whois/releases/download/v1.12.1/whois-linux-amd64.zip | busybox unzip -qd /usr/local/bin/ - \
@@ -104,7 +111,7 @@ RUN curl -sfLo - https://github.com/restic/restic/releases/download/v0.12.1/rest
   && chmod +x /usr/local/bin/restic
 
 # Install golang
-RUN curl -sLo - https://go.dev/dl/go1.17.6.linux-amd64.tar.gz | tar -xzvf - -C /usr/local \
+RUN curl -sLo - https://go.dev/dl/go1.18.3.linux-amd64.tar.gz | tar -xzf - -C /usr/local \
   && echo 'export PATH=$PATH:/usr/local/go/bin:/root/go/bin:$HOME/go/bin' > /etc/profile.d/go.sh
 
 # Install https://github.com/lpar/kpwgen
@@ -123,7 +130,7 @@ RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v github.com/justmiles/g
 RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v golang.org/x/tools/gopls@latest
 
 # Install golangci-lint
-RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.1
 
 # Install dlv
 RUN GOBIN=/usr/local/bin/ /usr/local/go/bin/go install -v github.com/go-delve/delve/cmd/dlv@latest
@@ -147,7 +154,7 @@ RUN curl -sfLo - https://releases.hashicorp.com/nomad/1.2.3/nomad_1.2.3_linux_am
 RUN curl -sfLo - https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash /dev/stdin -b /usr/bin
 
 # Install  https://github.com/harness/drone-cli
-RUN curl -sfLo - https://github.com/harness/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar -xzvf - -C /usr/local/bin
+RUN curl -sfLo - https://github.com/harness/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar -xzf - -C /usr/local/bin
 
 # Install Java
 RUN apt-get update \
@@ -159,18 +166,15 @@ RUN apt-get update \
 
 # Install https://github.com/coder/code-server
 RUN mkdir -p /usr/local/code-server \
-  && curl -sfLo - https://github.com/coder/code-server/releases/download/v${CODE_SERVER_RELEASE}/code-server-${CODE_SERVER_RELEASE}-linux-amd64.tar.gz | tar -xzvf - -C /usr/local/code-server --strip-components=1
+  && curl -sfLo - https://github.com/coder/code-server/releases/download/v${CODE_SERVER_RELEASE}/code-server-${CODE_SERVER_RELEASE}-linux-amd64.tar.gz | tar -xzf - -C /usr/local/code-server --strip-components=1
 
 # Setup sandbox user
 RUN useradd --shell /usr/bin/zsh --create-home sandbox \
   && echo 'sandbox ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/sandbox \
   && usermod -a -G docker sandbox
 
-# Copy user configs
-COPY --chown=sandbox:sandbox user-settings.json /home/sandbox/.local/share/code-server/User/settings.json
-COPY --chown=sandbox:sandbox machine-settings.json /home/sandbox/.local/share/code-server/Machine/settings.json
-COPY --chown=sandbox:sandbox keybindings.json /home/sandbox/.local/share/code-server/User/keybindings.json
-COPY --chown=sandbox:sandbox config.yaml /home/sandbox/.config/code-server/config.yaml
+# Copy user dotfiles
+COPY --chown=sandbox:sandbox dotfiles /home/sandbox
 
 USER sandbox
 
@@ -178,8 +182,6 @@ WORKDIR /home/sandbox
 
 # Install ohmyzsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-COPY --chown=sandbox:sandbox .zshrc .
 
 # Install NVM
 ENV NVM_DIR="/home/sandbox/.nvm"
@@ -205,6 +207,7 @@ RUN for item in \
   jkillian.custom-local-formatters \
   # Generic tools
   eamodio.gitlens \
+  jebbs.plantuml \
   # Install snazzy themes
   pkief.material-icon-theme \
   zhuangtongfa.Material-theme \
@@ -212,8 +215,14 @@ RUN for item in \
 
 EXPOSE 8080
 
-COPY entrypoint.sh /usr/bin/entrypoint
-
 WORKDIR /home/sandbox
 
-ENTRYPOINT ["entrypoint"]
+USER root
+
+# Copy s6-overlay configs
+COPY s6-rc.d /etc/s6-overlay/s6-rc.d
+
+# Set default environment variables
+ENV S6_VERBOSITY 1
+
+ENTRYPOINT ["/init"]
