@@ -4,21 +4,30 @@
 
 This repo contains common tools and plugins I use when developing remotely.
 
-## Usage
+## Quickstart
 
-Quickstart:
+Run a basic sandbox with the following
 
 ```bash
-docker run --privileged \
-  -e TS_AUTH_KEY \
-  -e TS_HOSTNAME \
-  -e ENTRYPOINT_HOOKS=/home/sandbox/workspaces/hooks \
-  -e TS_STATE=/home/sandbox/workspaces/.tailscaled.state \
-  -v /var/run/docker.sock:/var/run/docker.sock \
+docker run \
   -p 8080:8080 \
   -v $PWD:/home/sandbox/workspaces \
   chrispruitt/dev-sandbox:latest
+```
 
+###
+
+Use [Tailscale HTTPS](https://tailscale.com/kb/1153/enabling-https/)
+
+```
+docker run --privileged \
+  -e TS_AUTH_KEY="tskey-xxxxxxxxxxxxxxxxxxxxxxxxxxx" \
+  -e TS_HOSTNAME="my-dev-sandbox" \
+  -e TS_SSL_ENABLED=true \
+  -e TS_DOMAIN_ALIAS="tailnet-xxxx.ts.net" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $PWD:/home/sandbox/workspaces \
+  justmiles/dev-sandbox:latest
 ```
 
 ## Volumes
@@ -34,22 +43,20 @@ Consider mapping the following volumes for a generally better experience.
 
 ## Environment Variables
 
-| Name             | Description                                                                 |
-| ---------------- | --------------------------------------------------------------------------- |
-| TS_AUTH_KEY      | tailscale authentication key                                                |
-| TS_HOSTNAME      | tailscale hostname for this machine                                         |
-| TS_EXTRA_ARGS    | additional arguments to the `tailscale up` command                          |
-| TS_STATE         | absolute path of tailscale state file                                       |
-| HISTFILE         | path to your persistant history file                                        |
-| S6_VERBOSITY     | controls the verbosity of s6-rc                                             |
-| ENTRYPOINT_HOOKS | path to directory of executables to be invoked before launching code-server |
+All environment variables are optional.
 
-## Daemons
-
-This project uses an s6-overlay to manage backend daemons.
-
-| Name          | Description                              |
-| ------------- | ---------------------------------------- |
-| code-server   | the main IDE                             |
-| tailscald     | tailscale daemon for mesh VPN            |
-| TODO: openvpn | client VPN to access privileged networks |
+| Name             | Description                                                                                           | Default             |
+| ---------------- | ----------------------------------------------------------------------------------------------------- | ------------------- |
+| SANDBOX_UID      | set the sandbox user's user ID                                                                        | 1000                |
+| SANDBOX_GID      | set the sandbox user's group ID                                                                       | 1000                |
+| TS_AUTH_KEY      | tailscale authentication key. Enables tailscale                                                       |                     |
+| TS_HOSTNAME      | tailscale hostname for this machine                                                                   |                     |
+| TS_STATE_DIR     | absolute path of tailscale state file                                                                 | /var/lib/tailscaled |
+| TS_ROUTES        | additional network routes for tailscale                                                               |                     |
+| TS_USERSPACE     | true / false - whether or not to run tailscale in userspace                                           | true                |
+| TS_EXTRA_ARGS    | additional arguments to the `tailscale up` command                                                    |                     |
+| TS_SSL_ENABLED   | (required for TLS) serve code-server over HTTPS using tailscale certificates                          | false               |
+| TS_DOMAIN_ALIAS  | (required for TLS) [tailscale domain alias](https://login.tailscale.com/admin/settings/features)      |                     |
+| HISTFILE         | path to your persistant history file                                                                  |                     |
+| S6\_\*           | [s6-rc configuration options](https://github.com/just-containers/s6-overlay#customizing-s6-behaviour) |                     |
+| ENTRYPOINT_HOOKS | path to directory of executables to be invoked before launching code-server                           |                     |
