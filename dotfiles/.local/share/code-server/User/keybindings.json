@@ -1,52 +1,52 @@
 [
   {
-    "key": "cmd+d",
-    "command": "editor.action.duplicateSelection"
+      "key": "ctrl+d",
+      "command": "editor.action.duplicateSelection"
   },
   {
-    "key": "ctrl+shift+f",
-    "command": "editor.action.addSelectionToNextFindMatch",
-    "when": "editorFocus"
+      "key": "ctrl+d",
+      "command": "-editor.action.addSelectionToNextFindMatch",
+      "when": "editorFocus"
   },
   {
-    "key": "cmd+d",
-    "command": "-editor.action.addSelectionToNextFindMatch",
-    "when": "editorFocus"
+      "key": "ctrl+r",
+      "command": "rerunSearchEditorSearch",
+      "when": "inSearchEditor"
   },
   {
-    "key": "ctrl+cmd+r",
-    "command": "rerunSearchEditorSearch",
-    "when": "inSearchEditor"
+      "key": "shift+ctrl+r",
+      "command": "workbench.action.replaceInFiles"
   },
   {
-    "key": "shift+cmd+r",
-    "command": "-rerunSearchEditorSearch",
-    "when": "inSearchEditor"
+      "key": "shift+ctrl+h",
+      "command": "-workbench.action.replaceInFiles"
   },
   {
-    "key": "shift+cmd+r",
-    "command": "workbench.action.replaceInFiles"
+      "key": "ctrl+u",
+      "command": "editor.action.transformToUppercase"
   },
   {
-    "key": "shift+cmd+h",
-    "command": "-workbench.action.replaceInFiles"
+      "key": "ctrl+shift+u",
+      "command": "editor.action.transformToLowercase"
   },
   {
-    "key": "ctrl+u",
-    "command": "editor.action.transformToUppercase"
+      "key": "ctrl+r",
+      "command": "editor.action.startFindReplaceAction",
+      "when": "editorFocus || editorIsOpen"
   },
   {
-    "key": "ctrl+shift+u",
-    "command": "editor.action.transformToLowercase"
+      "key": "alt+ctrl+f",
+      "command": "-editor.action.startFindReplaceAction",
+      "when": "editorFocus || editorIsOpen"
   },
   {
-    "key": "cmd+r",
-    "command": "editor.action.startFindReplaceAction",
-    "when": "editorFocus || editorIsOpen"
+      "key": "ctrl+shift+f",
+      "command": "filesExplorer.findInFolder",
+      "when": "explorerResourceIsFolder && explorerViewletVisible && filesExplorerFocus && !inputFocus"
   },
   {
-    "key": "alt+cmd+f",
-    "command": "-editor.action.startFindReplaceAction",
-    "when": "editorFocus || editorIsOpen"
+      "key": "shift+alt+f",
+      "command": "-filesExplorer.findInFolder",
+      "when": "explorerResourceIsFolder && explorerViewletVisible && filesExplorerFocus && !inputFocus"
   }
 ]

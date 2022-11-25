@@ -4,6 +4,8 @@
   "workbench.startupEditor": "newUntitledFile",
   "editor.renderWhitespace": "all",
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
   "editor.fontSize": 12,
   "editor.tabSize": 2,
   "extensions.ignoreRecommendations": true,
@@ -11,8 +13,8 @@
   "explorer.confirmDelete": false,
   "extensions.autoUpdate": false,
   "files.watcherExclude": {
-    "**/vendor/**": true,
-    "**/.config/**": true
+      "**/vendor/**": true,
+      "**/.config/**": true
   },
   "gitlens.mode.statusBar.enabled": false,
   "gitlens.hovers.currentLine.over": "line",
@@ -34,14 +36,18 @@
   }
   ],
   "files.associations": {
-    "*.hcl": "terraform",
-    "*.nomad": "terraform"
+      "*.hcl": "terraform",
+      "*.nomad": "terraform"
   },
   "[terraform]": {
-    "editor.defaultFormatter": "jkillian.custom-local-formatters"
+      "editor.defaultFormatter": "jkillian.custom-local-formatters"
+  },
+  "[javascript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "go.toolsManagement.autoUpdate": true,
   "go.coverOnSave": true,
+  "go.formatTool": "goimports",
   "go.coverageDecorator": {
       "type": "gutter",
       "coveredHighlightColor": "rgba(64,128,128,0.5)",
@@ -49,5 +55,10 @@
       "coveredGutterStyle": "blockgreen",
       "uncoveredGutterStyle": "blockred"
   },
-  "go.coverOnSingleTest": true
+  "go.coverOnSingleTest": true,
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "tabnine.experimentalAutoImports": true,
+  "window.newWindowDimensions": "inherit",
+  "plantuml.server": "https://www.plantuml.com/plantuml",
+  "files.autoSave": "onFocusChange"
 }
