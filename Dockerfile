@@ -217,7 +217,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 # Copy user dotfiles
 COPY --chown=sandbox:sandbox dotfiles /home/sandbox
 
-RUN chezmoi --exclude scripts --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/justmiles/dotfiles.git
+RUN chezmoi --exclude scripts --source ~/.config/chezmoi-public --cache ~/.cache/chezmoi-public --refresh-externals init --apply https://github.com/chrispruitt/dotfiles.git
 
 # Latest terraform
 RUN tfswitch --latest
