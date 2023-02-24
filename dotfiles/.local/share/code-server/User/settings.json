@@ -22,6 +22,7 @@
   "redhat.telemetry.enabled": false,
   "telemetry.telemetryLevel": "off",
   "customLocalFormatters.formatters": [
+<<<<<<< HEAD
     {
       "command": "~/bin/terraform fmt -",
       "languages": [
@@ -34,6 +35,14 @@
           "nomad"
       ]
   }
+=======
+      {
+          "command": "~/.local/bin/hclfmt",
+          "languages": [
+              "terraform"
+          ]
+      }
+>>>>>>> fa1cdb4ca83fa6a13b6a354ae7609a0dc7ba551c
   ],
   "files.associations": {
       "*.hcl": "terraform",

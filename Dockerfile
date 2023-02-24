@@ -32,6 +32,7 @@ RUN apt-get update \
   rsync \
   sudo \
   traceroute \
+  tree \
   unzip \
   vim \
   wget \
@@ -54,9 +55,9 @@ RUN curl -sfLo - https://github.com/just-containers/s6-overlay/releases/download
 
 # Install tailscale
 RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
-     && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
-     && apt-get update \
-     && apt-get install -y tailscale
+  && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
+  && apt-get update \
+  && apt-get install -y tailscale
 
 # Setup python
 RUN sudo ln -s /usr/bin/python3 /usr/bin/python \
@@ -230,26 +231,26 @@ RUN curl -sfLo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh 
 # Install VS Code Extensions
 # TODO: Figure out how to support the tabnine.tabnine-vscode extension
 RUN for item in \
-      # Golang
-      golang.go \
-      # Terrafomr
-      hashicorp.terraform \
-      # Python
-      ms-python.python \
-      # Java
-      redhat.java \
-      gabrielbb.vscode-lombok \
-      # Generic language parsers / prettifiers
-      esbenp.prettier-vscode \
-      redhat.vscode-yaml \
-      jkillian.custom-local-formatters \
-      # Generic tools
-      eamodio.gitlens \
-      jebbs.plantuml \
-      # Install snazzy themes
-      pkief.material-icon-theme \
-      zhuangtongfa.Material-theme \
-    ; do /usr/local/code-server/bin/code-server --force --install-extension $item; done
+  # Golang
+  golang.go \
+  # Terrafomr
+  hashicorp.terraform \
+  # Python
+  ms-python.python \
+  # Java
+  redhat.java \
+  gabrielbb.vscode-lombok \
+  # Generic language parsers / prettifiers
+  esbenp.prettier-vscode \
+  redhat.vscode-yaml \
+  jkillian.custom-local-formatters \
+  # Generic tools
+  eamodio.gitlens \
+  jebbs.plantuml \
+  # Install snazzy themes
+  pkief.material-icon-theme \
+  zhuangtongfa.Material-theme \
+  ; do /usr/local/code-server/bin/code-server --force --install-extension $item; done
 
 RUN mkdir -p ~/.ssh
 
